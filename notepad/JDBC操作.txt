@@ -1,0 +1,41 @@
+JDBC操作過程
+1.
+		Connection conn = null;
+		Statement stat = null;
+		try {
+			Driver driver = new com.mysql.jdbc.Driver();
+			//注册驱动
+			DriverManager.registerDriver(driver);
+			String url = "jdbc:mysql://localhost:3306/mytestdb";
+			String user = "root";
+			String password = "root";
+			//获取链接
+			conn = (Connection) DriverManager.getConnection(url, user, password);
+			stat = (Statement) conn.createStatement();
+			//JDBCSQL语句不用写分号
+			String sql = "insert into my_table (id, name) values(4, 'zhangsan')";
+			//执行SQL语句
+			int res = stat.executeUpdate(sql);
+			System.out.println(res);
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			//关闭资源
+			if(stat != null) {
+				try {
+					stat.close();
+				}catch(SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if(conn != null) {
+				try {
+					conn.close();
+				}catch(SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+	}
+}
